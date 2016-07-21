@@ -1,0 +1,34 @@
+version: '2'
+services:
+  web:
+    image: nginx:1.10.1
+    container_name: c_web
+    ports:
+      - "8080:80"
+    volumes:
+      # Mount folder that same level with `docker` folder
+      # - ../my-symfony-app:/var/www/my-symfony-app
+      # Mount nginx site configuration
+      # - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+    links:
+      - php
+  php:
+    build: ./php7
+    container_name: c_php
+    volumes:
+      # Mount folder that same level with `docker` folder
+      # - ../my-symfony-app:/var/www/my-symfony-app
+    links:
+      - cache
+      - db
+  db:
+    image: mysql:5.7.13
+    container_name: c_db
+    ports:
+      - "33060:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=salam_standard
+  cache:
+    image: redis:3.0.7
+    container_name: c_cache
