@@ -28,7 +28,7 @@ services:
       - "33060:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=salam_standard
+      - MYSQL_DATABASE=test_db
   cache:
     image: redis:3.0.7
     container_name: c_cache

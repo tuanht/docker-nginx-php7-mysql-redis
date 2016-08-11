@@ -1,6 +1,10 @@
 FROM php:7-fpm
 
+RUN usermod -u 1000 www-data
+
 RUN docker-php-ext-install pdo_mysql
+
+COPY php.ini /usr/local/etc/php/
 
 WORKDIR /tmp
 
@@ -32,3 +36,7 @@ RUN curl -L /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$REDI
   ) \
   && rm -rf phpredis-$REDIS_VERSION \
   && docker-php-ext-enable redis
+
+# Speedup PHP
+RUN pecl install apcu && docker-php-ext-enable apcu
+RUN docker-php-ext-install opcache
